@@ -1,8 +1,9 @@
 <template>
   <div class="layout">
     <div class="tick" :style="styleComputed">
-      <input v-model="tick.label"/>
-      <TodoList :items="tick.todoList"/>
+      <input placeholder="Some label" v-model="tick.label"/>
+      <TodoList :items="tick.todoList" @add="addTodo"/>
+      <!-- Выбор цвета -->
       <div class="colors">
         <span v-for="color in colors" :key="color">
           <radio v-model="tick.color" :value="color">
@@ -10,8 +11,12 @@
           </radio>
         </span>
       </div>
-      <div class="btn" @click="saveTick()">Сохранить</div>
-      <div class="btn" @click="cancel()">Отменить</div>
+      <!-- Элементы управления -->
+      <div class="controls">
+        <btn v-if="changed" icon="confirm" @click="save()" title="Сохранить"/>
+        <btn icon="close" @click="remove()" title="Удалить"/>
+        <btn icon="undo" @click="cancel()" :title="undoTitleComputed"/>
+      </div>
     </div>
   </div>
 </template>
@@ -21,12 +26,10 @@ import Tick from '../classes/Tick.js'
 import TodoList from '../components/TodoList.vue'
 import radio from '../components/UI/radio.vue'
 import color from '../components/UI/color.vue'
+import btn from '../components/UI/btn.vue'
 
 const colors = ['#ea4335', '#fbbc05', '#34a853', '#00bcd4', '#9c27b0', '#f44336', '#03a9f4', '#009688', '#8bc34a', '#cddc39', '#ff9800']
-// const todoBase = {
-//   checked: false,
-//   description: ''
-// }
+
 export default {
   name: 'Tick',
   props: {
@@ -37,18 +40,34 @@ export default {
   },
   data () {
     return {
+      changed: false,
       color: '',
       colors: colors,
       tick: new Tick(this.$ls.get(`tick_${this.id}`))
+    }
+  },
+  watch: {
+    tick: {
+      handler (to, fr) {
+        this.changed = !!to.label && to.todoList.length
+      },
+      deep: true
     }
   },
   created () {
 
   },
   methods: {
-    saveTick () {
+    save () {
       this.$ls.set(this.tick)
       this.cancel()
+    },
+    remove () {
+      this.$ls.remove(this.tick)
+      this.cancel()
+    },
+    addTodo (data) {
+      this.tick.todoList.push(data)
     },
     cancel () {
       this.$router.push('/')
@@ -58,25 +77,21 @@ export default {
     styleComputed () {
       const gray = '#9e9e9e'
       return { 'background-color': `${this.tick.color || gray}0d` }
+    },
+    undoTitleComputed () {
+      return this.changed ? 'Отменить' : 'Вернуться'
     }
   },
   components: {
     TodoList,
     radio,
-    color
+    color,
+    btn
   }
 }
 </script>
 
 <style scoped lang="stylus">
-.btn
-  padding 10px
-  border-radius 5px
-  background #607d8b
-  color white
-  font-size .4em
-  cursor pointer
-
 .layout
   display flex
   flex 1
@@ -85,7 +100,8 @@ export default {
   overflow hidden
 
 .tick
-  max-width 100%
+  padding-left 30px
+  max-width calc(100% - 30px)
   max-height 100vh
   width 900px
   height 600px
@@ -106,22 +122,33 @@ export default {
     border-bottom 2px solid transparent
     &:focus
       border-bottom 2px solid #98c400
+
   .colors
+    position absolute
+    left 0
+    top 0
+    display flex
+    flex-direction column
+    justify-content space-between
+    height 100%
+    overflow auto
+    span
+      display block
+
+  .controls
     position absolute
     bottom 0
     display flex
-    justify-content space-evenly
-    width 100%
-    margin 5px
-    overflow auto
-    span
-      display flex
-      flex 1
+    align-self flex-end
+    .btn
+      margin 5px
 
 @media (orientation: portrait)
   .tick
-    width 100%
+    width calc(100% - 30px)
     height 100%
+    input
+      max-width calc(100% - 30px)
     .colors
       margin 0
 </style>
