@@ -8,10 +8,32 @@ export default class Tick {
     this.todoList = (tick || {}).todoList || []
   }
 
+  // Короткий список todo для вывода в карточку
   get shortTodoList () {
-    return this.todoList.slice(0, 2)
+    return this.uncompleteToComplete.slice(0, 4)
   }
 
+  // Список незавершенных
+  get uncomplete () {
+    return this.todoList.filter(todo => !todo.checked)
+  }
+
+  // Список завершенных
+  get complete () {
+    return this.todoList.filter(todo => todo.checked)
+  }
+
+  // Список от незавршенных к завершенным
+  get uncompleteToComplete () {
+    return [...this.uncomplete, ...this.complete]
+  }
+
+  // Список от завершенных к незавершенным
+  get completeToUncomplete () {
+    return this.uncompleteToComplete.reverse()
+  }
+
+  // Ключ для обращения к LocalStorage
   get key () {
     return `tick_${this.id}`
   }

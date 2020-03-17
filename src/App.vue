@@ -13,6 +13,11 @@ export default {
       transitionName: 'scale-in'
     }
   },
+  created () {
+    if (!this.$ls.getAllTicks().length) {
+      this.$ls.generateDefaultData()
+    }
+  },
   watch: {
     $route (to, from) {
       const toDepth = to.path.split('/').length

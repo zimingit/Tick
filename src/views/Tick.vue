@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="tick" :style="styleComputed">
       <input placeholder="Some label" v-model="tick.label"/>
-      <TodoList :items="tick.todoList" @add="addTodo"/>
+      <TodoList :items="tick.todoList" @add="addTodo" @remove="removeTodo"/>
       <!-- Выбор цвета -->
       <div class="colors">
         <span v-for="color in colors" :key="color">
@@ -69,6 +69,9 @@ export default {
     addTodo (data) {
       this.tick.todoList.push(data)
     },
+    removeTodo (data) {
+      this.tick.todoList = this.tick.todoList.filter(todo => todo.key !== data.key)
+    },
     cancel () {
       this.$router.push('/')
     }
@@ -114,6 +117,7 @@ export default {
   font-weight 600
   position relative
   input
+    margin-bottom 20px
     background-color transparent
     outline none
     border none

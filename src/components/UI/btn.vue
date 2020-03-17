@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div class="btn" :class="icon" :style="styleComputed" @click="$emit('click', $event)"/>
+    <div class="btn" :class="[icon, size]" :style="styleComputed" @click="$emit('click', $event)"/>
   </transition>
 </template>
 
@@ -10,6 +10,10 @@ export default {
   props: {
     icon: {
       type: String
+    },
+    size: {
+      type: String,
+      default: 'normal'
     }
   },
   computed: {
@@ -26,8 +30,6 @@ export default {
 .btn
   background-position center
   background-repeat no-repeat
-  background-size 20px
-  padding 20px
   border-radius 100%
   background-color #9e9e9e
   cursor pointer
@@ -43,6 +45,13 @@ export default {
     background-color #98c400
   &.close, &.undo
     background-color #bdbdbd
+
+  &.normal
+    background-size 20px
+    padding 20px
+  &.small
+    background-size 10px
+    padding 10px
 
 // Анимации появления
 .fade-enter-active, .fade-leave-active
