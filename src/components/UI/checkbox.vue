@@ -33,7 +33,9 @@ input
 
 label
   width 20px
+  min-width 20px
   height 20px
+  min-height 20px
   border-radius 2px
   border 1px solid #98c400
   margin 5px

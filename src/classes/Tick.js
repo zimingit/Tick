@@ -1,10 +1,11 @@
+'use strict'
 export default class Tick {
-  'use strict'
   constructor (tick) {
-    this.id = tick.id || new Date().getTime()
-    this.label = tick.label || 'Some label'
-    this.color = tick.color || null
-    this.todoList = tick.todoList || []
+    this.id = (tick || {}).id || new Date().getTime()
+    this.created = (tick || {}).created || new Date()
+    this.label = (tick || {}).label || ''
+    this.color = (tick || {}).color || null
+    this.todoList = (tick || {}).todoList || []
   }
 
   get shortTodoList () {

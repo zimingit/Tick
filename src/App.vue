@@ -61,4 +61,13 @@ body, #app
 .scale-out-enter
   opacity 0
   transform scale(.5)
+
+// Переопределяем стили скролбара
+::-webkit-scrollbar
+    width 4px
+    height 4px
+::-webkit-scrollbar-thumb
+    border-color #777
+    background-color #aaa
+
 </style>
