@@ -19,21 +19,72 @@ export default {
       const fromDepth = from.path.split('/').length
       this.transitionName = toDepth < fromDepth ? 'scale-out' : 'scale-in'
     }
+  },
+  created () {
+    // const anyData = [
+    //   {
+    //     id: new Date().getTime(),
+    //     label: 'Tick 1',
+    //     color: null,
+    //     todoList: [
+    //       {
+    //         checked: false,
+    //         description: 'Задача 11'
+    //       },
+    //       {
+    //         checked: true,
+    //         description: 'Задача 12'
+    //       },
+    //       {
+    //         checked: true,
+    //         description: 'Задача 13'
+    //       }
+    //     ],
+    //     get shortTodoList () { return this.todoList.slice(0, 2) }
+    //   },
+    //   {
+    //     id: new Date().getTime() + 1,
+    //     label: 'Tick 2',
+    //     color: null,
+    //     todoList: [
+    //       {
+    //         checked: false,
+    //         description: 'Задача 21'
+    //       },
+    //       {
+    //         checked: true,
+    //         description: 'Задача 22'
+    //       },
+    //       {
+    //         checked: true,
+    //         description: 'Задача 23'
+    //       }
+    //     ],
+    //     get shortTodoList () { return this.todoList.slice(0, 2) }
+    //   }
+    // ]
+    // anyData.forEach(item => {
+    //   const key = `tick_${item.id}`
+    //   this.$ls.set(key, item)
+    // })
   }
 }
 </script>
 
 <style lang="stylus">
+h1, h2, h3, ul, div, p, body, a
+  margin 0
+  padding 0
+  color #2c3e50
+  text-decoration none
+
 body, #app
   font-family Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
-  margin 0
-  padding 0
   display flex
   flex 1
   height 100vh
-  color #2c3e50
   overflow hidden
 
 #app
