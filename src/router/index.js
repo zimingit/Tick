@@ -9,6 +9,8 @@ const routes = [
   {
     path: '/',
     name: 'Home',
+    // Допустимы query sort=asc/desc
+    props: route => ({ ...route.query, ...route.params }),
     component: Home
   },
   {
