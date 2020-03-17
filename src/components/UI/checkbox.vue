@@ -1,5 +1,5 @@
 <template>
-  <label :class="{'checked': checked}">
+  <label :class="{'checked': checked, 'editable': !disabled}">
     <input type="checkbox"
       :checked="checked"
       :disabled="disabled"
@@ -41,7 +41,8 @@ label
   display flex
   align-items center
   justify-content center
-
+  &.editable
+    cursor pointer
   &.checked
     background-color #98c400
     &:after

@@ -19,54 +19,6 @@ export default {
       const fromDepth = from.path.split('/').length
       this.transitionName = toDepth < fromDepth ? 'scale-out' : 'scale-in'
     }
-  },
-  created () {
-    // const anyData = [
-    //   {
-    //     id: new Date().getTime(),
-    //     label: 'Tick 1',
-    //     color: null,
-    //     todoList: [
-    //       {
-    //         checked: false,
-    //         description: 'Задача 11'
-    //       },
-    //       {
-    //         checked: true,
-    //         description: 'Задача 12'
-    //       },
-    //       {
-    //         checked: true,
-    //         description: 'Задача 13'
-    //       }
-    //     ],
-    //     get shortTodoList () { return this.todoList.slice(0, 2) }
-    //   },
-    //   {
-    //     id: new Date().getTime() + 1,
-    //     label: 'Tick 2',
-    //     color: null,
-    //     todoList: [
-    //       {
-    //         checked: false,
-    //         description: 'Задача 21'
-    //       },
-    //       {
-    //         checked: true,
-    //         description: 'Задача 22'
-    //       },
-    //       {
-    //         checked: true,
-    //         description: 'Задача 23'
-    //       }
-    //     ],
-    //     get shortTodoList () { return this.todoList.slice(0, 2) }
-    //   }
-    // ]
-    // anyData.forEach(item => {
-    //   const key = `tick_${item.id}`
-    //   this.$ls.set(key, item)
-    // })
   }
 }
 </script>
@@ -93,6 +45,7 @@ body, #app
 // Анимации переключения компонентов
 .scale-in-enter-active, .scale-in-leave-active
 .scale-out-enter-active, .scale-out-leave-active
+  filter blur(1px)
   position absolute
   transform-origin top center
   transition-property opacity, transform

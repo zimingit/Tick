@@ -1,17 +1,12 @@
 <template>
   <div class="tick" :style="styleComputed">
     <router-link :to="linkComputed">{{tick.label}}</router-link>
-    <ul>
-      <li v-for="todo in tick.shortTodoList" :key="todo.description">
-        <checkbox v-model="todo.checked" :disabled="true"/>
-        {{todo.description}}
-      </li>
-    </ul>
+    <Todolist :items="tick.shortTodoList" :editable="false"/>
   </div>
 </template>
 
 <script>
-import checkbox from './UI/checkbox.vue'
+import Todolist from './TodoList.vue'
 export default {
   name: 'TickCard',
   props: {
@@ -30,7 +25,7 @@ export default {
     }
   },
   components: {
-    checkbox
+    Todolist
   }
 }
 </script>
