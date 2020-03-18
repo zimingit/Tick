@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <btn class="btn_add" icon="add" @click="create" title="Создать"/>
-    <Tick v-for="tick in ticksSorted" :key="tick.id" :tick="tick"/>
+    <Tick v-for="tick in ticks" :key="tick.id" :tick="tick" @update="update"/>
   </div>
 </template>
 
@@ -25,14 +25,20 @@ export default {
       default: 30
     }
   },
+  data () {
+    return {
+      ticks: this.getTicksSorted()
+    }
+  },
   methods: {
     create () {
       this.$router.push('/Tick/0')
-    }
-  },
-  computed: {
+    },
+    update () {
+      this.ticks = this.getTicksSorted()
+    },
     // Возвращаем список всех заметок с указанной/дефолтной сортировкой и кадром
-    ticksSorted () {
+    getTicksSorted () {
       const from = this.offset
       const to = this.limit
       const data = this.$ls.getAllTicks()

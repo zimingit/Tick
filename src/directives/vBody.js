@@ -8,8 +8,6 @@ export default Vue.directive('body', {
     container.appendChild(el)
   },
   unbind (el) {
-    setTimeout(() => {
-      el.remove()
-    }, 300)
+    el.remove()
   }
 })

@@ -1,9 +1,16 @@
 <template>
   <transition name="fade" appear>
-    <div class="backdrop" v-body @click="$emit('close')">
+    <div class="backdrop" v-body @click.self="run(data.action.cancel)">
       <div class="modal">
-        <div v-for="el in modalCompositionComputed" :key="el.name" :class="el.className">
-          <slot :name="el.slotName"/>
+        <div class="modal_header">
+          <h2>{{data.label}}</h2>
+        </div>
+        <div class="modal_body">
+          <p>{{data.description}}</p>
+        </div>
+        <div class="modal_footer">
+          <btn icon="confirm" @click="run(data.action.ok)" title="Подтвердить"/>
+          <btn icon="undo" @click="run(data.action.cancel)" title="Отменить"/>
         </div>
       </div>
     </div>
@@ -12,35 +19,17 @@
 
 <script>
 import vBody from '@/directives/vBody.js'
-
-const modalCompositionDefault = [
-  {
-    name: 'header',
-    get className () { return `modal_${this.name}` },
-    get slotName () { return this.name }
-  },
-  {
-    name: 'body',
-    get className () { return `modal_${this.name}` },
-    get slotName () { return this.name }
-  },
-  {
-    name: 'footer',
-    get className () { return `modal_${this.name}` },
-    get slotName () { return this.name }
-  }
-]
-
+import btn from '../components/UI/btn.vue'
 export default {
   name: 'Modal',
-  data () {
-    return {
-      modalComposition: modalCompositionDefault
-    }
+  props: ['data'],
+  components: {
+    btn
   },
-  computed: {
-    modalCompositionComputed () {
-      return this.modalComposition.filter(mdl => mdl.name in this.$slots)
+  methods: {
+    run (f) {
+      f()
+      this.$destroy()
     }
   },
   directives: {

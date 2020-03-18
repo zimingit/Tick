@@ -1,18 +1,39 @@
 <template>
-  <router-link :to="linkComputed" tag="div" class="tick" :style="styleComputed">
+  <div class="tick" :style="styleComputed" @click.self="edit">
+    <div class="delete_action" @click.self="remove"></div>
     <p>{{tick.label}}</p>
     <Todolist :items="tick.shortTodoList" :editable="false"/>
-  </router-link>
+  </div>
 </template>
 
 <script>
 import Todolist from './TodoList.vue'
+import Confirm from '../classes/Confirm.js'
 export default {
   name: 'TickCard',
   props: {
     tick: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    edit () {
+      this.$router.push(this.linkComputed)
+    },
+    remove () {
+      this.$modal.create(new Confirm(
+        {
+          label: 'WARNING',
+          description: `"${this.tick.label}" будет удален. Вы уверены?`,
+          action: {
+            ok: () => {
+              this.$ls.remove(this.tick)
+              this.$emit('update')
+            }
+          }
+        }
+      ))
     }
   },
   computed: {
@@ -61,6 +82,17 @@ export default {
   &:hover
     &:after
       transform scale(1, 1)
+
+  .delete_action
+    position absolute
+    top 10px
+    right 10px
+    z-index 1
+    width 20px
+    height 20px
+    background-image url('../assets/icons/close.svg')
+    background-size cover
+    filter invert(.1)
 
   ul
     font-size .5em
