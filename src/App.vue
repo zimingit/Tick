@@ -29,6 +29,9 @@ export default {
 </script>
 
 <style lang="stylus">
+html
+  height 100%
+
 h1, h2, h3, ul, div, p, body, a
   margin 0
   padding 0
@@ -41,7 +44,8 @@ body, #app
   -moz-osx-font-smoothing grayscale
   display flex
   flex 1
-  height 100vh
+  height 100%
+  max-height 100vh
   overflow hidden
 
 #app

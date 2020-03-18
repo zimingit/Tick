@@ -135,6 +135,7 @@ export default {
   padding-left 30px
   max-width calc(100% - 30px)
   max-height 100vh
+  max-height 100%
   width 900px
   height 600px
   margin auto
