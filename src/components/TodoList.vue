@@ -82,7 +82,7 @@ ul
       font-size .4em
       width 100%
       &:focus
-        border-bottom 2px solid #98c400
+        border-bottom 1px solid #98c400
     .btn_todo_remove
       margin 5px
 

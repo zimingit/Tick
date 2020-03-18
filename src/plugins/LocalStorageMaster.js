@@ -23,7 +23,7 @@ const ls = {
         label: 'Edit Tick',
         color: '#98c400',
         todoList: [
-          new Todo({ description: 'Click on Tick label' }),
+          new Todo({ description: 'Click on Tick' }),
           new Todo({ description: 'Toggle first goal' })
         ]
       },

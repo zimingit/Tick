@@ -1,8 +1,8 @@
 <template>
-  <div class="tick" :style="styleComputed">
-    <router-link :to="linkComputed">{{tick.label}}</router-link>
+  <router-link :to="linkComputed" tag="div" class="tick" :style="styleComputed">
+    <p>{{tick.label}}</p>
     <Todolist :items="tick.shortTodoList" :editable="false"/>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -32,6 +32,7 @@ export default {
 
 <style scoped lang="stylus">
 .tick
+  overflow hidden
   max-width 100%
   width 23%
   min-width 360px
@@ -43,7 +44,23 @@ export default {
   align-items center
   font-size 3em
   font-weight 600
-  // filter blur(3px)
+  cursor pointer
+  position relative
+  &:after
+    content ''
+    display block
+    position absolute
+    height 100%
+    width 100%
+    background #F5F5F5
+    border-left 10px solid #98c400
+    opacity .2
+    transform-origin left top
+    transform scale(0, 1)
+    transition transform .3s ease
+  &:hover
+    &:after
+      transform scale(1, 1)
 
   ul
     font-size .5em
