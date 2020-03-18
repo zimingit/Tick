@@ -54,7 +54,6 @@ body, #app
 // Анимации переключения компонентов
 .scale-in-enter-active, .scale-in-leave-active
 .scale-out-enter-active, .scale-out-leave-active
-  filter blur(1px)
   position absolute
   transform-origin top center
   transition-property opacity, transform
