@@ -68,6 +68,7 @@ export default {
   width 100%
   height 100%
   .btn_add
+    z-index 2
     position absolute
     bottom 20px
     right 20px

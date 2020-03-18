@@ -1,7 +1,7 @@
 <template>
-  <div class="tick" :style="styleComputed" @click.self="edit">
-    <div class="delete_action" @click.self="remove"></div>
-    <p>{{tick.label}}</p>
+  <div class="tick" :style="styleComputed" @click="edit">
+    <div class="delete_action" @click.stop="remove"></div>
+    <p :title="this.tick.label">{{labelComputed}}</p>
     <Todolist :items="tick.shortTodoList" :editable="false"/>
   </div>
 </template>
@@ -37,6 +37,9 @@ export default {
     }
   },
   computed: {
+    labelComputed () {
+      return this.tick.label.length > 16 ? `${this.tick.label.slice(0, 20)}...` : this.tick.label
+    },
     styleComputed () {
       const gray = '#9e9e9e'
       return { 'background-color': `${this.tick.color || gray}10` }
@@ -54,14 +57,14 @@ export default {
 <style scoped lang="stylus">
 .tick
   overflow hidden
-  max-width 100%
-  width 23%
-  min-width 360px
-  height 300px
+  max-width calc(100% - 40px)
+  padding 40px 20px 20px 20px
+  width calc(23% - 40px)
+  min-width 240px
+  height 240px
   margin 1%
   display flex
   flex-direction column
-  justify-content center
   align-items center
   font-size 3em
   font-weight 600
@@ -69,8 +72,10 @@ export default {
   position relative
   &:after
     content ''
+    pointer-events none
     display block
     position absolute
+    top 0
     height 100%
     width 100%
     background #F5F5F5
@@ -94,6 +99,10 @@ export default {
     background-size cover
     filter invert(.1)
 
+  p
+    text-align center
+    text-transform uppercase
+
   ul
     font-size .5em
     list-style-type none
@@ -104,6 +113,6 @@ export default {
 @media (orientation: portrait)
   .tick
     margin .5% 0
-    width 100%
+    width calc(100% - 40px)
     flex-shrink 0
 </style>
