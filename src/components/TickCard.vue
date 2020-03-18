@@ -18,7 +18,7 @@ export default {
   computed: {
     styleComputed () {
       const gray = '#9e9e9e'
-      return { 'background-color': `${this.tick.color || gray}0d` }
+      return { 'background-color': `${this.tick.color || gray}10` }
     },
     linkComputed () {
       return `/Tick/${this.tick.id}`

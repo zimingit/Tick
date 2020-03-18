@@ -14,19 +14,29 @@
       <!-- Элементы управления -->
       <div class="controls">
         <btn v-if="changed" icon="confirm" @click="save()" title="Сохранить"/>
-        <btn icon="close" @click="remove()" title="Удалить"/>
+        <btn v-if="!newTickComputed" icon="close" @click="remove()" title="Удалить"/>
         <btn icon="undo" @click="cancel()" :title="undoTitleComputed"/>
       </div>
     </div>
+    <Modal v-if="confirm" @close="clearConfirm">
+      <h2 slot="header">{{confirm.label}}</h2>
+      <p slot="body">{{confirm.text}}</p>
+      <template slot="footer">
+        <btn icon="confirm" @click="confirm.ok" title="Подтвердить"/>
+        <btn icon="undo" @click="confirm.cancel" title="Отменить"/>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script>
 import Tick from '../classes/Tick.js'
+import Confirm from '../classes/Confirm.js'
 import TodoList from '../components/TodoList.vue'
 import radio from '../components/UI/radio.vue'
 import color from '../components/UI/color.vue'
 import btn from '../components/UI/btn.vue'
+import Modal from '../components/Modal.vue'
 
 const colors = ['#ea4335', '#fbbc05', '#34a853', '#00bcd4', '#9c27b0', '#f44336', '#03a9f4', '#009688', '#8bc34a', '#cddc39', '#ff9800']
 
@@ -40,6 +50,7 @@ export default {
   },
   data () {
     return {
+      confirm: null,
       changed: false,
       color: '',
       colors: colors,
@@ -58,13 +69,27 @@ export default {
 
   },
   methods: {
+    clearConfirm () {
+      this.confirm = null
+    },
+    createConfirm (data) {
+      this.confirm = new Confirm(data)
+    },
     save () {
       this.$ls.set(this.tick)
       this.cancel()
     },
     remove () {
-      this.$ls.remove(this.tick)
-      this.cancel()
+      const del = () => {
+        this.$ls.remove(this.tick)
+        this.cancel()
+      }
+      this.createConfirm({
+        label: 'WARNING',
+        text: `"${this.tick.label}" будет удален. Вы уверены?`,
+        ok: del,
+        cancel: this.clearConfirm
+      })
     },
     addTodo (data) {
       this.tick.todoList.push(data)
@@ -79,17 +104,21 @@ export default {
   computed: {
     styleComputed () {
       const gray = '#9e9e9e'
-      return { 'background-color': `${this.tick.color || gray}0d` }
+      return { 'background-color': `${this.tick.color || gray}10` }
     },
     undoTitleComputed () {
       return this.changed ? 'Отменить' : 'Вернуться'
+    },
+    newTickComputed () {
+      return [0, '0'].includes(this.id)
     }
   },
   components: {
     TodoList,
     radio,
     color,
-    btn
+    btn,
+    Modal
   }
 }
 </script>

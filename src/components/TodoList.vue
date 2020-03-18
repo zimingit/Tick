@@ -1,8 +1,8 @@
 <template>
   <transition-group name="item-list" tag="ul">
     <li v-for="item in items" :key="item.key" :class="{'done': item.checked}">
-      <checkbox v-model.lazy="item.checked" :disabled="!editable"/>
         <template v-if="editable">
+          <checkbox v-model.lazy="item.checked"/>
           <input v-model="item.description"/>
           <btn class="btn_todo_remove" icon="close" size="small" @click="remove(item)" title="Удалить"/>
         </template>
@@ -67,6 +67,11 @@ ul
     align-items center
     max-width 100%
     text-overflow ellipsis
+    cursor default
+    margin 5px
+    padding 10px 20px
+    border-radius 10px
+    background-color #ffffff42
     &.done
       text-decoration line-through
     input
