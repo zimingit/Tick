@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: '/tick/',
   pages: {
     index: {
       entry: 'src/main.js',
