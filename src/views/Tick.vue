@@ -13,7 +13,7 @@
       </div>
       <!-- Элементы управления -->
       <div class="controls">
-        <btn v-if="changed" icon="confirm" @click="save()" title="Сохранить"/>
+        <btn v-if="tick.changed" icon="confirm" @click="save()" title="Сохранить"/>
         <btn v-if="!newTickComputed" icon="close" @click="remove()" title="Удалить"/>
         <btn icon="undo" @click="cancel()" :title="undoTitleComputed"/>
       </div>
@@ -40,27 +40,30 @@ export default {
   },
   data () {
     return {
-      changed: false,
       colors: colors,
+      to: 0,
       tick: new Tick(this.$ls.get(`tick_${this.id}`))
     }
   },
-  watch: {
-    tick: {
-      handler (to, fr) {
-        this.changed = !!to.label && to.todoList.length
-      },
-      deep: true
-    }
-  },
   created () {
-
+    document.addEventListener('keydown', this.hotkeyHundler)
   },
   methods: {
     save () {
+      if (!this.tick.label) {
+        return this.$modal.create(
+          {
+            label: 'CONTINUE?',
+            description: 'Tick must contain label.',
+            actions: {
+              ok: { do: () => { this.$router.push('/') }, title: 'Home', icon: 'undo' },
+              cancel: { icon: 'close', title: 'Close' }
+            }
+          }
+        )
+      }
       this.$ls.set(this.tick)
-      this.changed = false
-      this.cancel()
+      this.cancel(true)
     },
     remove () {
       const del = () => {
@@ -78,16 +81,16 @@ export default {
       )
     },
     addTodo (data) {
-      this.tick.todoList.push(data)
+      // Proxy не отследит простой push, т.к. следит за tick
+      this.tick.todoList = [...this.tick.todoList, data]
     },
     removeTodo (data) {
       this.tick.todoList = this.tick.todoList.filter(todo => todo.key !== data.key)
     },
-    cancel () {
-      if (this.changed) {
+    cancel (forced) {
+      if (this.tick.changed && !forced) {
         const abort = () => {
-          this.changed = false
-          this.cancel()
+          this.cancel(true)
         }
         return this.$modal.create(
           {
@@ -102,7 +105,20 @@ export default {
         )
       }
       this.$router.push('/')
+    },
+    hotkeyHundler (e) {
+      if (e.code === 'KeyZ' && e.ctrlKey && !e.shiftKey) {
+        e.preventDefault()
+        this.tick.applyPreviousVersion()
+      }
+      if (e.code === 'KeyZ' && e.ctrlKey && e.shiftKey) {
+        e.preventDefault()
+        this.tick.applyNextVersion()
+      }
     }
+  },
+  beforeDestroy () {
+    document.removeEventListener('keydown', this.hotkeyHundler)
   },
   computed: {
     styleComputed () {
@@ -110,7 +126,7 @@ export default {
       return { 'background-color': `${this.tick.color || gray}10` }
     },
     undoTitleComputed () {
-      return this.changed ? 'Отменить' : 'Вернуться'
+      return this.tick.changed ? 'Отменить' : 'Вернуться'
     },
     newTickComputed () {
       return [0, '0'].includes(this.id)

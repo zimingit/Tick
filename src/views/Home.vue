@@ -60,7 +60,6 @@ export default {
 
 <style scoped lang="stylus">
 .home
-  margin 2%
   display flex
   flex 1
   flex-wrap wrap
