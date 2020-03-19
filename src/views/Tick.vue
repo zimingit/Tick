@@ -68,7 +68,7 @@ export default {
     remove () {
       const del = () => {
         this.$ls.remove(this.tick)
-        this.cancel()
+        this.cancel(true)
       }
       this.$modal.create(
         {

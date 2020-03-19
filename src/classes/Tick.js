@@ -73,7 +73,7 @@ export default class Tick {
   }
 
   get changed () {
-    return !!this.$versions.length
+    return !!this.$versions.length || this.todoList.filter(todo => todo.$changed).length
   }
 
   // Короткий список todo для вывода в карточку
