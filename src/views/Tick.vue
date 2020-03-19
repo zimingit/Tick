@@ -23,7 +23,6 @@
 
 <script>
 import Tick from '../classes/Tick.js'
-import Confirm from '../classes/Confirm.js'
 import TodoList from '../components/TodoList.vue'
 import radio from '../components/UI/radio.vue'
 import color from '../components/UI/color.vue'
@@ -41,9 +40,7 @@ export default {
   },
   data () {
     return {
-      confirm: null,
       changed: false,
-      color: '',
       colors: colors,
       tick: new Tick(this.$ls.get(`tick_${this.id}`))
     }
@@ -62,6 +59,7 @@ export default {
   methods: {
     save () {
       this.$ls.set(this.tick)
+      this.changed = false
       this.cancel()
     },
     remove () {
@@ -69,15 +67,15 @@ export default {
         this.$ls.remove(this.tick)
         this.cancel()
       }
-      this.$modal.create(new Confirm(
+      this.$modal.create(
         {
-          label: 'WARNING',
-          description: `"${this.tick.label}" будет удален. Вы уверены?`,
-          action: {
-            ok: del
+          label: 'CONTINUE?',
+          description: `"${this.tick.label}" will be deleted.`,
+          actions: {
+            ok: { do: del }
           }
         }
-      ))
+      )
     },
     addTodo (data) {
       this.tick.todoList.push(data)
@@ -86,6 +84,23 @@ export default {
       this.tick.todoList = this.tick.todoList.filter(todo => todo.key !== data.key)
     },
     cancel () {
+      if (this.changed) {
+        const abort = () => {
+          this.changed = false
+          this.cancel()
+        }
+        return this.$modal.create(
+          {
+            label: 'SAVE CHANGES?',
+            description: `"${this.tick.label}" contains unsaved changes.`,
+            actions: {
+              ok: { do: this.save },
+              return: { name: 'return', do: abort, title: 'Not save', icon: 'undo', order: 15 },
+              cancel: { icon: 'close', title: 'Close' }
+            }
+          }
+        )
+      }
       this.$router.push('/')
     }
   },

@@ -1,16 +1,14 @@
 import Vue from 'vue'
 import Modal from '../Modal/Modal.vue'
+import Confirm from '../classes/Confirm.js'
 
 const modal = {
   create (data) {
     const container = createDivInBody()
     new Vue({
       ...Modal,
-      props: {
-        data: {
-          type: Object,
-          default: () => data
-        }
+      data: {
+        data: new Confirm(data)
       }
     }).$mount(container)
   }

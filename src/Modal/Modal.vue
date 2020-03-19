@@ -2,15 +2,18 @@
   <transition name="fade" appear>
     <div class="backdrop" v-body @click.self="run(data.action.cancel)">
       <div class="modal">
-        <div class="modal_header">
+        <div class="modal_header" v-if="data.label">
           <h2>{{data.label}}</h2>
         </div>
         <div class="modal_body">
           <p>{{data.description}}</p>
         </div>
         <div class="modal_footer">
-          <btn icon="confirm" @click="run(data.action.ok)" title="Подтвердить"/>
-          <btn icon="undo" @click="run(data.action.cancel)" title="Отменить"/>
+          <btn v-for="action in actions"
+            :key="action.name"
+            :icon="action.icon"
+            :title="action.title"
+            @click="action.do"/>
         </div>
       </div>
     </div>
@@ -22,14 +25,30 @@ import vBody from '@/directives/vBody.js'
 import btn from '../components/UI/btn.vue'
 export default {
   name: 'Modal',
-  props: ['data'],
   components: {
     btn
   },
   methods: {
     run (f) {
-      f()
+      if (typeof f === 'function') f()
       this.$destroy()
+    }
+  },
+  computed: {
+    actions () {
+      return Object.keys(this.data.action)
+        .reduce((acc, k) => {
+          const action = this.data.action[k]
+          acc.push({
+            name: k,
+            title: action.title,
+            icon: action.icon,
+            order: action.order || 0,
+            do: () => { this.run(action.do || function () {}) }
+          })
+          return acc
+        }, [])
+        .sort((a, b) => (a.order - b.order))
     }
   },
   directives: {
