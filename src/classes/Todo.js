@@ -1,5 +1,11 @@
 'use strict'
-export default class Todo {
+/** Class representing a Todo. */
+class Todo {
+  /**
+   * Create a Todo
+   * @param {Object} todo - The todo value
+   * @return {Object} The todo proxying value
+   */
   constructor (todo) {
     this.checked = (todo || {}).checked || false
     this.description = (todo || {}).description || ''
@@ -14,3 +20,5 @@ export default class Todo {
     })
   }
 }
+
+export default Todo

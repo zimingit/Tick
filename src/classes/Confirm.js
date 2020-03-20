@@ -1,5 +1,14 @@
 'use strict'
-export default class Confirm {
+/**
+ * Class representing a Confirm.
+ * The class describes elements in Modal
+ */
+class Confirm {
+  /**
+   * Create a Confirm
+   * @param {Object} data - The Confirm value
+   * @returns {Object} The Confirm object
+   */
   constructor (data) {
     this.label = (data || {}).label || 'Default label'
     this.description = (data || {}).description || 'Default description'
@@ -10,3 +19,5 @@ export default class Confirm {
     }
   }
 }
+
+export default Confirm
