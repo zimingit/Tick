@@ -12,15 +12,27 @@ import Confirm from '../classes/Confirm.js'
 export default {
   name: 'TickCard',
   props: {
+    /**
+     * Объект Tick
+     * @values new Tick()
+     */
     tick: {
       type: Object,
       required: true
     }
   },
   methods: {
+    /**
+     * Открывает карточку на редактирование
+     * @public
+     */
     edit () {
       this.$router.push(this.linkComputed)
     },
+    /**
+     * Удаляет карточку (с подтверждением через Modal)
+     * @public
+     */
     remove () {
       this.$modal.create(new Confirm(
         {
@@ -29,6 +41,9 @@ export default {
           action: {
             ok: () => {
               this.$ls.remove(this.tick)
+              /**
+               * Событие обновления (состояние карточки обновилось)
+               */
               this.$emit('update')
             }
           }
@@ -116,3 +131,24 @@ export default {
     width calc(100% - 40px)
     flex-shrink 0
 </style>
+
+<docs>
+### Example:
+
+```vue
+  <template>
+    <TickCard :tick="tick" key="TickCard"/>
+  </template>
+
+  <script>
+    import Tick from '../classes/Tick'
+    export default {
+      data() {
+        return {
+          tick: new Tick({ label: 'Simple Tick' })
+        }
+      }
+    }
+  </script>
+```
+</docs>

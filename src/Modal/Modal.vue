@@ -21,6 +21,9 @@
 </template>
 
 <script>
+/**
+ * @example [none]
+ */
 import vBody from '@/directives/vBody.js'
 import btn from '../components/UI/btn.vue'
 export default {
@@ -29,6 +32,11 @@ export default {
     btn
   },
   methods: {
+    /**
+     * Запускапет обработчик кнопки, затем уничтожает экземпляр окна
+     * @param {Function} f - Функция обработчик
+     * @public
+     */
     run (f) {
       if (typeof f === 'function') f()
       this.$destroy()

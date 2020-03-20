@@ -1,5 +1,10 @@
 <template>
   <label :class="{'checked': checked, 'editable': !disabled}">
+    <!--
+      Срабатывает при изменении
+      @event change
+      @property {Boolean} value - значение checked
+    -->
     <input type="checkbox"
       :checked="checked"
       :disabled="disabled"
@@ -15,10 +20,16 @@ export default {
     event: 'change'
   },
   props: {
+    /**
+     * Значение чекбокса
+     */
     checked: {
       type: Boolean,
       required: true
     },
+    /**
+     * Disabled-статус чекбокса
+     */
     disabled: {
       type: Boolean,
       default: false
@@ -61,3 +72,28 @@ label:after
   opacity 0
   transition opacity .3s ease
 </style>
+
+<docs>
+### Example:
+
+```vue
+  <template>
+    <div>
+      <span>
+        <checkbox v-model="checked"/>
+        {{checked ? 'Done!' : 'Check this'}}
+      </span>
+    </div>
+  </template>
+
+  <script>
+    export default {
+      data() {
+        return {
+          checked: false
+        };
+      }
+    }
+  </script>
+```
+</docs>

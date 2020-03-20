@@ -12,14 +12,26 @@ import btn from '../components/UI/btn.vue'
 export default {
   name: 'Home',
   props: {
+    /**
+     * Сортировка
+     * @values {String} asc, des, ''
+     */
     sort: {
       type: String,
       default: 'asc'
     },
+    /**
+     * Начало кадра
+     * @values {[String, Number]}
+     */
     offset: {
       type: [String, Number],
       default: 0
     },
+    /**
+     * Длина кадра
+     * @values {[String, Number]}
+     */
     limit: {
       type: [String, Number],
       default: 30
@@ -31,13 +43,24 @@ export default {
     }
   },
   methods: {
+    /**
+     * Переход на страницу создания нового Tick'a
+     * @public
+     */
     create () {
       this.$router.push('/Tick/0')
     },
+    /**
+     * Реакция на обновление в списке Tick'ов
+     * @public
+     */
     update () {
       this.ticks = this.getTicksSorted()
     },
-    // Возвращаем список всех заметок с указанной/дефолтной сортировкой и кадром
+    /**
+     * Возвращаем список всех заметок с указанной/дефолтной сортировкой и кадром
+     * @public
+     */
     getTicksSorted () {
       const from = this.offset
       const to = this.limit

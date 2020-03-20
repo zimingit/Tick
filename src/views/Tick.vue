@@ -7,7 +7,7 @@
       <div class="colors">
         <span v-for="color in colors" :key="color">
           <radio v-model="tick.color" :value="color">
-            <color slot="selector" :color="color"/>
+            <color :color="color"/>
           </radio>
         </span>
       </div>
@@ -22,6 +22,9 @@
 </template>
 
 <script>
+/**
+ * @example [none]
+ */
 import Tick from '../classes/Tick.js'
 import TodoList from '../components/TodoList.vue'
 import radio from '../components/UI/radio.vue'
@@ -33,6 +36,10 @@ const colors = ['#ea4335', '#fbbc05', '#34a853', '#00bcd4', '#9c27b0', '#f44336'
 export default {
   name: 'Tick',
   props: {
+    /**
+     * Id Tick'а
+     * @values {[Number, String]}
+     */
     id: {
       type: [Number, String],
       default: 0
@@ -49,6 +56,10 @@ export default {
     document.addEventListener('keydown', this.hotkeyHundler)
   },
   methods: {
+    /**
+     * Выполняет сохранение
+     * @public
+     */
     save () {
       if (!this.tick.label) {
         return this.$modal.create(
@@ -65,6 +76,10 @@ export default {
       this.$ls.set(this.tick)
       this.cancel(true)
     },
+    /**
+     * Выполняет удаления
+     * @public
+     */
     remove () {
       const del = () => {
         this.$ls.remove(this.tick)
@@ -80,13 +95,28 @@ export default {
         }
       )
     },
+    /**
+     * Выполняет добавление Todo элемента в список
+     * @param {Object} data - объект new Todo()
+     * @public
+     */
     addTodo (data) {
       // Proxy не отследит простой push, т.к. следит за tick
       this.tick.todoList = [...this.tick.todoList, data]
     },
+    /**
+     * Выполняет удаление Todo элемента из списка
+     * @param {Object} data - объект new Todo()
+     * @public
+     */
     removeTodo (data) {
       this.tick.todoList = this.tick.todoList.filter(todo => todo.key !== data.key)
     },
+    /**
+     * Выполняет переход на домашнюю страницу
+     * @param {Boolean} forced - флаг принудительной переадресации. Игнорирует проверку несохраненных изменений
+     * @public
+     */
     cancel (forced) {
       if (this.tick.changed && !forced) {
         const abort = () => {
@@ -106,6 +136,11 @@ export default {
       }
       this.$router.push('/')
     },
+    /**
+     * Обработчик нажатия кнопок
+     * @param {$event} e - нативное событие нажатия кнопок
+     * @public
+     */
     hotkeyHundler (e) {
       if (e.code === 'KeyZ' && e.ctrlKey && !e.shiftKey) {
         e.preventDefault()

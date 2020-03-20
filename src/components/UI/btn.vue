@@ -1,16 +1,29 @@
 <template>
   <transition name="fade" appear>
+    <!--
+      Срабатывает при клике
+      @event click
+      @property {$event} - нативный event
+    -->
     <div class="btn" :class="[icon, size]" :style="styleComputed" @click="$emit('click', $event)"/>
   </transition>
 </template>
 
 <script>
 export default {
-  name: 'color',
+  name: 'btn',
   props: {
+    /**
+     * Имя иконки
+     * @values add, close, confirm, undo
+     */
     icon: {
       type: String
     },
+    /**
+     * Размер иконки
+     * @values normal, small
+     */
     size: {
       type: String,
       default: 'normal'
@@ -61,3 +74,21 @@ export default {
   opacity 0
 
 </style>
+
+<docs>
+### Example:
+
+```vue
+  <template>
+    <div>
+      <btn v-for="action in ['add', 'close', 'confirm', 'undo']" :key="action" :icon="action"/>
+    </div>
+  </template>
+  <style scoped>
+    div {
+      display: flex;
+      justify-content: space-evenly;
+    }
+  </style>
+```
+</docs>

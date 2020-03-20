@@ -6,6 +6,10 @@
 export default {
   name: 'color',
   props: {
+    /**
+     * Код цвета
+     * @values rgb, hsl, hex, string
+     */
     color: {
       type: String,
       required: true
@@ -25,3 +29,11 @@ export default {
   width 30px
   height 30px
 </style>
+
+<docs>
+### Example:
+
+```jsx
+<color color="#34a853"/>
+```
+</docs>

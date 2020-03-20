@@ -101,3 +101,40 @@ ul
   opacity 0
   transform scale(.8)
 </style>
+
+<docs>
+### Example:
+
+```vue
+  <template>
+    <Todolist :items="todos" @remove="remove" @add="add"/>
+  </template>
+
+  <script>
+    export default {
+      data() {
+        return {
+          todos: [
+            { checked: false, description: 'First todo', key: '1' },
+            { checked: false, description: 'Second todo', key: '2' },
+            { checked: false, description: 'Third todo', key: '3' },
+          ]
+        }
+      },
+      methods: {
+        add (todo) {
+          this.todos.push(todo)
+        },
+        remove (todo) {
+          this.todos = this.todos.filter(t => t.key !== todo.key)
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      font-size: 3em;
+    }
+  </style>
+```
+</docs>
