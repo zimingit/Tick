@@ -30,7 +30,7 @@ class Tick {
   /**
    * Откатывает версию Tick к следующей (если возможно).
    */
-  static applyNextVersion () {
+  applyNextVersion () {
     if (this.$versions[this.$versionNumber + 1]) {
       this.$versionNumber += 1
     }
@@ -40,7 +40,7 @@ class Tick {
   /**
    * Откатывает версию Tick к предыдущей (если возможно).
    */
-  static applyPreviousVersion () {
+  applyPreviousVersion () {
     // Создаем версию, если происходит первый откат
     if (this.$versionNumber === this.$versions.length && this.$versions.length) {
       this.createVersion()
@@ -56,7 +56,7 @@ class Tick {
    * Применяет указанную версию к Tick
    * @param {Number} v - Индекс версии
    */
-  static applyVersion (v = 0) {
+  applyVersion (v = 0) {
     const to = this.getVersion(v)
     this.$silent = true
     Object.keys(to).forEach(k => {
@@ -70,7 +70,7 @@ class Tick {
    * @param {Number} v - Индекс версии
    * @returns {Object} Запрошенная версия или текущий Tick
    */
-  static getVersion (v) {
+  getVersion (v) {
     if (this.$versions[v]) {
       return this.$versions[v]
     }
@@ -80,7 +80,7 @@ class Tick {
   /**
    * Создает версию Tick исходя из текущего состояния
    */
-  static createVersion () {
+  createVersion () {
     const clone = { ...this }
     Object.keys(clone)
       .filter(k => k.startsWith('$'))

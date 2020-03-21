@@ -8,7 +8,6 @@
 
 <script>
 import Todolist from './TodoList.vue'
-import Confirm from '../classes/Confirm.js'
 export default {
   name: 'TickCard',
   props: {
@@ -34,21 +33,24 @@ export default {
      * @public
      */
     remove () {
-      this.$modal.create(new Confirm(
+      this.$modal.create(
         {
           label: 'WARNING',
           description: `"${this.tick.label}" будет удален. Вы уверены?`,
-          action: {
-            ok: () => {
-              this.$ls.remove(this.tick)
-              /**
-               * Событие обновления (состояние карточки обновилось)
-               */
-              this.$emit('update')
+          actions: {
+            ok: {
+              name: 'KKOOOK',
+              do: () => {
+                this.$ls.remove(this.tick)
+                /**
+                 * Событие обновления (состояние карточки обновилось)
+                 */
+                this.$emit('update')
+              }
             }
           }
         }
-      ))
+      )
     }
   },
   computed: {

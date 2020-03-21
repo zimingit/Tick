@@ -21,9 +21,6 @@
 </template>
 
 <script>
-/**
- * @example [none]
- */
 import vBody from '@/directives/vBody.js'
 import btn from '../components/UI/btn.vue'
 export default {
@@ -66,8 +63,11 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@require('../assets/css/reset.styl')
 .backdrop
   position fixed
+  top 0
+  left 0
   padding 0 10px
   width calc(100% - 20px)
   height 100%
@@ -117,3 +117,36 @@ export default {
 .modal_footer .btn
   margin-left 5px
 </style>
+
+<docs>
+### Example:
+
+```vue
+  <template>
+    <button @click.prevent="createModal">Open modal</button>
+  </template>
+
+  <script>
+    import Vue from 'vue'
+    import modal from '../plugins/ModalMaster'
+    Vue.use(modal)
+
+    export default {
+      methods: {
+        createModal () {
+          return this.$modal.create(
+            {
+              label: 'MODAL LABEL',
+              description: 'This is modal text example',
+              actions: {
+                ok: {},
+                cancel: {}
+              }
+            }
+          )
+        }
+    }
+    }
+  </script>
+```
+</docs>

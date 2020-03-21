@@ -29,27 +29,7 @@ export default {
 </script>
 
 <style lang="stylus">
-html
-  height 100%
-
-h1, h2, h3, ul, div, p, body, a
-  margin 0
-  padding 0
-  color #2c3e50
-  text-decoration none
-
-body, #app
-  font-family Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  display flex
-  flex 1
-  height 100%
-  max-height 100vh
-  overflow hidden
-
-#app
-  overflow auto
+@require('./assets/css/reset.styl')
 
 // Анимации переключения компонентов
 .scale-in-enter-active, .scale-in-leave-active
